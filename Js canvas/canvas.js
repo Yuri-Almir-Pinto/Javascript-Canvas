@@ -9,8 +9,7 @@ function toRadians(degress) {
     return (Math.PI / 180) * degress;
 }
 
-function draw() {
-    debugger;
+function draw(teste) {
     if (canvas.getContext) {
         const ctx = canvas.getContext("2d");
         // Transforma a canvas. No exemplo abaixo, altera a escala X e Y dela respectivamente.
@@ -115,7 +114,31 @@ function draw() {
 
         ctx.fillStyle = coneGradient;
         ctx.fillRect(1200, 500, 200, 200);
+
+        // Isso é um padrão. Primeiro se carrega uma imagem da seguinte forma..
+        const img = new Image();
+        img.src = "./pattern.jpg"
+        img.onload = () => {
+            // E quando ela carregar, cria o padrão com esta função (Usa os mesmos valores de repeat de img de CSS), e coloca ele no fillStyle.
+            const pattern = ctx.createPattern(img, "repeat");
+            ctx.fillStyle = pattern;
+            ctx.fillRect(0, 700, 2000, 200);
+
+            ctx.drawImage(img, 1200, 0, 100, 100);
+        }
         
+        // Aplica sombras a algum formato. Cada um dos quatro valores aqui altera algo da sombra, como sua localização, blur e cor.
+        // ctx.shadowOffsetX = 20;
+        // ctx.shadowOffsetY = 10;
+        // ctx.shadowBlur = 10;
+        // ctx.shadowColor = "rgba(0,0,0,0.7)"
+        ctx.fillStyle = "rgba(150,0,150, 1)";
+        ctx.fillRect(1600, canvas.height / 2, 100, 100);
+
+        // Salva todas as configurações atuais do Canvas para um stack. (fillStyle, strokeStyle, transforms, etc)
+        ctx.save();
+        // Restaura todas as confgurações salvas anteriormente, do topo do stack.
+        ctx.restore();
     }
 }
 
